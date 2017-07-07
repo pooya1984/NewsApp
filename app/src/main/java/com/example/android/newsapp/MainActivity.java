@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     private static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String GARDIAN_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
+            "http://content.guardianapis.com/search?q=";
 
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                News currentEarthquake = mAdapter.getItem(position);
-                Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+                News currentNews = mAdapter.getItem(position);
+                Uri newsUri = Uri.parse(currentNews.getUrl());
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
                 startActivity(websiteIntent);
             }
         });
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
+
+
 
 
     @Override
