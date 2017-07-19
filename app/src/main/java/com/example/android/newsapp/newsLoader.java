@@ -12,23 +12,17 @@ import java.util.List;
 
 public class newsLoader extends AsyncTaskLoader<List<News>> {
 
-
     private static final String LOG_TAG = newsLoader.class.getName();
-
     private String mUrl;
-
 
     public newsLoader(Context context, String url) {
         super(context);
-        mUrl = url;
-    }
+        mUrl = url;}
 
     @Override
     protected void onStartLoading() {
         Log.i(LOG_TAG, "Test: onStartLoading() called...");
-        forceLoad();
-    }
-
+        forceLoad();}
 
     @Override
     public List<News> loadInBackground() {

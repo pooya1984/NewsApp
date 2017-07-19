@@ -73,9 +73,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
-
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         return new newsLoader(this, GARDIAN_REQUEST_URL);

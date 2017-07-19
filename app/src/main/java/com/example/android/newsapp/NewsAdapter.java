@@ -16,7 +16,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
         super(context, 0, news);
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
