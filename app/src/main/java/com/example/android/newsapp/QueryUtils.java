@@ -1,5 +1,6 @@
 package com.example.android.newsapp;
 
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -22,10 +23,11 @@ import java.util.List;
  * Created by PnoD on 7/6/2017.
  */
 
-public class QueryUtils {
+public final class QueryUtils extends AppCompatActivity {
 
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
+    private QueryUtils() {}
 
     public static List<News> fetchNewsData(String requestUrl) {
         URL url = createUrl(requestUrl);
@@ -37,11 +39,9 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link NewsDataBase}objects
-        List<News> newsSet = extractFeatureFromJson(jsonResponse);
+        List<News> news = extractArticleFromJson(jsonResponse);
 
-        // Return the list of {@link news}
-        return newsSet;
+        return news;
     }
 
 
@@ -50,7 +50,7 @@ public class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
+            Log.e(LOG_TAG, "Problem building the URL ");
         }
         return url;
     }
@@ -83,7 +83,7 @@ public class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -110,37 +110,52 @@ public class QueryUtils {
         return output.toString();
     }
 
+    public static List<News> extractArticleFromJson(String newsJSON) {
+        String title = "";
+        String date = "";
+        String dateTime;
+        String section = "";
+        String url = "";
 
-    private static List<News> extractFeatureFromJson(String newsJSON) {
         if (TextUtils.isEmpty(newsJSON)) {
             return null;
         }
-        List<News> newsList = new ArrayList<>();
+
+        ArrayList<News> newsList = new ArrayList<>();
+
         try {
 
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
-            JSONArray newsArray = baseJsonResponse.getJSONArray("response");
-            for (int i = 0; i < newsArray.length(); i++) {
-                JSONObject currentNews = newsArray.getJSONObject(i);
-                JSONObject properties = currentNews.getJSONObject("properties");
+            JSONObject responseJsonObject = baseJsonResponse.getJSONObject("response");
+            JSONArray resultsArray = responseJsonObject.getJSONArray("results");
 
+            for (int i = 0; i < resultsArray.length(); i++) {
 
-                String section = properties.getString("sectionId");
+                JSONObject thisNews = resultsArray.getJSONObject(i);
 
-                String title = properties.getString("webTitle");
+                if (thisNews.has("webTitle")) {
+                    title = thisNews.getString("webTitle");
+                }
 
-                long time = properties.getLong("time");
+                if (thisNews.has("webPublicationDate")) {
+                    dateTime = thisNews.getString("webPublicationDate");
+                    date = dateTime.substring(0, 10);
+                }
 
-                String url = properties.getString("url");
+                if (thisNews.has("webUrl")) {
+                    url = thisNews.getString("webUrl");
+                }
 
-                // and url from the JSON response.
-                News news = new News(title, section, time, url);
+                if (thisNews.has("sectionName")) {
+                    section = thisNews.getString("sectionName");
+                }
+
+                News news = new News(title, section, date, url);
                 newsList.add(news);
             }
-
         } catch (JSONException e) {
-
-            Log.e("QueryUtils", "Problem parsing the News JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }
         return newsList;
-    }}
+    }
+}

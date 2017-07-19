@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity
     private static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String GARDIAN_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=";
+            "https://content.guardianapis.com/search?q=politics&api-key=test";
 
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(LOG_TAG, "Test: News Activity onCreate() called");
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

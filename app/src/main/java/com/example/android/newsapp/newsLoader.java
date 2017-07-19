@@ -6,6 +6,7 @@ package com.example.android.newsapp;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class newsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     protected void onStartLoading() {
+        Log.i(LOG_TAG, "Test: onStartLoading() called...");
         forceLoad();
     }
 

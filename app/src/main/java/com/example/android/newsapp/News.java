@@ -7,15 +7,19 @@ package com.example.android.newsapp;
 public class News {
     private String mSection;
     private String mTitle;
-    private long mDateTime;
+    private String mDate;
     private String mUrl;
 
-    public News(String Section , String Title, long DateTime, String Url) {
-        mSection = Section;
-        mTitle = Title;
-        mDateTime = DateTime;
-        mUrl = Url;
+
+    public News(String title, String section, String date, String url) {
+        mSection = section;
+        mTitle = title;
+        mDate = date;
+        mUrl = url;
     }
+
+
+
 
     public String getSection() {
         return mSection;
@@ -25,9 +29,7 @@ public class News {
         return mTitle;
     }
 
-    public long getDateTime() {
-        return mDateTime;
-    }
+    public String getDate() {return mDate;}
 
     public String getUrl() {
         return mUrl;
